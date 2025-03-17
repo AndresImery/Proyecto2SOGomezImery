@@ -24,6 +24,46 @@ class FileEntry {
         this.blockList = new LinkedList<Integer>();
         this.permissions = permissions;
     }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSizeInBlocks() {
+        return sizeInBlocks;
+    }
+
+    public void setSizeInBlocks(int sizeInBlocks) {
+        this.sizeInBlocks = sizeInBlocks;
+    }
+
+    public int getStartBlock() {
+        return startBlock;
+    }
+
+    public void setStartBlock(int startBlock) {
+        this.startBlock = startBlock;
+    }
+
+    public LinkedList<Integer> getBlockList() {
+        return blockList;
+    }
+
+    public void setBlockList(LinkedList<Integer> blockList) {
+        this.blockList = blockList;
+    }
+
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(String permissions) {
+        this.permissions = permissions;
+    }
 
     public void rename(String newName) {
         this.name = newName;
@@ -31,5 +71,5 @@ class FileEntry {
 
     public String getInfo() {
         return "File: " + name + ", Size: " + sizeInBlocks + " blocks, Start Block: " + startBlock;
-    }
+    } 
 }
