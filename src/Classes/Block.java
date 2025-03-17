@@ -16,7 +16,21 @@ class Block {
         this.id = id;
     }
 
+    public Block getNextBlock() {
+        return nextBlock;
+    }
+
     public void setNextBlock(Block nextBlock) {
         this.nextBlock = nextBlock;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 }
