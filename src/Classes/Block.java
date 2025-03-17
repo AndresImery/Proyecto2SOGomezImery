@@ -10,14 +10,13 @@ package Classes;
  */
 class Block {
     private int id;
-    private Integer nextBlock; // Can be null if it's the last block
+    private Block nextBlock; // Can be null if it's the last block
 
     public Block(int id) {
         this.id = id;
-        this.nextBlock = null;
     }
 
-    public void setNextBlock(int nextBlock) {
+    public void setNextBlock(Block nextBlock) {
         this.nextBlock = nextBlock;
     }
 }
