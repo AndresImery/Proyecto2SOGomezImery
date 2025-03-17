@@ -10,7 +10,7 @@ import structures.*;
  *
  * @author andresimery
  */
-class FileEntry {
+class FileEntry { // Archivo
     private String name;
     private int sizeInBlocks;
     private int startBlock;

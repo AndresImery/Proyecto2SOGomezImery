@@ -11,7 +11,7 @@ import so.*;
  *
  * @author andresimery
  */
-class Directory {
+class Directory { // Directorio
     private String name;
     private LinkedList<FileEntry> files;
     private LinkedList<Directory> subdirectories;

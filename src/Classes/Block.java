@@ -8,7 +8,7 @@ package Classes;
  *
  * @author andresimery
  */
-class Block {
+class Block { // Bloques
     private int id;
     private Block nextBlock; // Can be null if it's the last block
 
