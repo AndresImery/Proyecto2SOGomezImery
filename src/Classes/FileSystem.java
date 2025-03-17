@@ -12,7 +12,7 @@ import java.util.*;
  *
  * @author andresimery
  */
-class FileSystem {
+class FileSystem { // Sistema
     private Directory rootDirectory;
     private int availableSpace;
     private Map<String, Integer> allocationTable;

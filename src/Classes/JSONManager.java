@@ -10,7 +10,7 @@ import java.io.*;
  *
  * @author andresimery
  */
-class JSONManager {
+class JSONManager { // Manager para guardar todo en la comp
     private static final String FILE_PATH = "filesystem.json";
     
     public static void saveSystem(FileSystem system) {
