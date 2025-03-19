@@ -58,4 +58,24 @@ class FileSystem { // Sistema
             System.out.println("ERROR: Archivo no encontrado");
         }
     }
+     
+     public void deleteFile(String name) {
+        FileEntry file = rootDirectory.getFiles().search(name);
+        if (file != null) {
+            rootDirectory.removeFile(name);
+            freeBlocks(file.getStartBlock(), file.getSizeInBlocks());
+            allocationTable.remove(name);
+            availableSpace += file.getSizeInBlocks();
+            System.out.println("Archivo eliminado: " + name);
+        } else {
+            System.out.println("ERROR: Archivo no encontrado");
+        }
+    }
+
+ 
+    private void freeBlocks(int startBlock, int size) {
+        
+        System.out.println("Bloques liberados desde " + startBlock + " de tamaño " + size);
+    }
+
 }
