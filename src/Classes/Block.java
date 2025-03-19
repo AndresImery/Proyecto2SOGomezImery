@@ -14,6 +14,7 @@ class Block { // Bloques
 
     public Block(int id) {
         this.id = id;
+        nextBlock = null;
     }
 
     public Block getNextBlock() {
