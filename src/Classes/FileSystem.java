@@ -76,11 +76,21 @@ class FileSystem { // Sistema
         System.out.println("Bloques liberados desde " + startBlock + " de tamaño " + size);
     }
 
-    // Crear directorio
+ 
     public void createDirectory(String name) {
         Directory newDir = new Directory(name);
         rootDirectory.addSubdirectory(newDir);
         System.out.println("Directorio creado: " + name);
     }
 
+    
+    public void updateDirectoryName(String oldName, String newName) {
+        Directory dir = rootDirectory.getSubdirectories().search(oldName);
+        if (dir != null) {
+            dir.setName(newName);
+            System.out.println("Directorio renombrado de " + oldName + " a " + newName);
+        } else {
+            System.out.println("ERROR: Directorio no encontrado");
+        }
+    }
 }
