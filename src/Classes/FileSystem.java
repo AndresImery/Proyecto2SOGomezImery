@@ -47,4 +47,15 @@ class FileSystem { // Sistema
             System.out.println("ERROR: Archivo no encontrado");
         }
     }
+     
+     public void updateFileName(String oldName, String newName) {
+        FileEntry file = rootDirectory.getFiles().search(oldName);
+        if (file != null) {
+            file.setName(newName);
+            allocationTable.put(newName, allocationTable.remove(oldName)); 
+            System.out.println("Archivo renombrado de " + oldName + " a " + newName);
+        } else {
+            System.out.println("ERROR: Archivo no encontrado");
+        }
+    }
 }
