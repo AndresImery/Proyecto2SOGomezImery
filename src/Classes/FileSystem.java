@@ -38,4 +38,13 @@ class FileSystem { // Sistema
     private int allocateBlocks(int size) {
         return new Random().nextInt(100);
     }
+    
+     public void readFile(String name) {
+        FileEntry file = rootDirectory.getFiles().search(name);
+        if (file != null) {
+            System.out.println("Leyendo archivo: " + file.getName() + ", Tamaño: " + file.getSizeInBlocks() + " bloques");
+        } else {
+            System.out.println("ERROR: Archivo no encontrado");
+        }
+    }
 }
