@@ -43,7 +43,7 @@ public class LinkedList<T> {
 
     public T remove(T data) {
         if (head == null) {
-            return null; // Lista vacía, no hay nada que eliminar
+            return null;
         }
 
         if (head.getData().equals(data)) {
@@ -64,7 +64,7 @@ public class LinkedList<T> {
             current = current.getNext();
         }
 
-        return null; // No se encontró el dato en la lista
+        return null;
     }
 
 

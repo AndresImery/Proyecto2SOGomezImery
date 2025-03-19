@@ -25,7 +25,7 @@ class FileSystem { // Sistema
 
     public void createFile(String name, int size, String permissions) {
         if (size > availableSpace) {
-            System.out.println("Not enough space to create file.");
+            System.out.println("ERROR\n No hay suficiente espacio para crear el archivo");
             return;
         }
         int startBlock = allocateBlocks(size);
@@ -36,7 +36,6 @@ class FileSystem { // Sistema
     }
 
     private int allocateBlocks(int size) {
-        // Simulate block allocation, returning a starting block index
         return new Random().nextInt(100);
     }
 }

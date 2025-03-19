@@ -70,6 +70,6 @@ class FileEntry { // Archivo
     }
 
     public String getInfo() {
-        return "File: " + name + ", Size: " + sizeInBlocks + " blocks, Start Block: " + startBlock;
+        return "Archivo: " + name + ", Tamaño: " + sizeInBlocks + " bloques. Inicia en el bloque #" + startBlock;
     } 
 }

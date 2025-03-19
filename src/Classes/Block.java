@@ -10,7 +10,7 @@ package Classes;
  */
 class Block { // Bloques
     private int id;
-    private Block nextBlock; // Can be null if it's the last block
+    private Block nextBlock;
 
     public Block(int id) {
         this.id = id;
