@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package structures;
-
+import Classes.*;
 /**
  *
  * @author andresimery
@@ -43,7 +43,7 @@ public class LinkedList<T> {
 
     public T remove(T data) {
         if (head == null) {
-            return null; // Lista vacía, no hay nada que eliminar
+            return null;
         }
 
         if (head.getData().equals(data)) {
@@ -64,7 +64,7 @@ public class LinkedList<T> {
             current = current.getNext();
         }
 
-        return null; // No se encontró el dato en la lista
+        return null;
     }
 
 
@@ -80,5 +80,21 @@ public class LinkedList<T> {
     public Node<T> getHead() {
         return head;
     }
+    
+    public T search(String name) {
+    Node<T> current = head;
+    while (current != null) {
+        // Verificamos si el dato es una instancia de FileEntry
+        if (current.getData() instanceof FileEntry) {
+            FileEntry fileEntry = (FileEntry) current.getData();
+            // Comparamos el nombre del FileEntry con el nombre buscado
+            if (fileEntry.getName().equals(name)) {
+                return current.getData(); // Devolvemos el FileEntry encontrado
+            }
+        }
+        current = current.getNext(); // Avanzamos al siguiente nodo
+    }
+    return null; // Si no se encuentra, devolvemos null
+}
 }
 

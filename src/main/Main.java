@@ -4,6 +4,8 @@
  */
 package main;
 
+import UI.SD;
+
 /**
  *
  * @author andresimery
@@ -15,6 +17,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        SD s= new SD();
+        s.setVisible(true);
     }
     
 }
