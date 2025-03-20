@@ -5,6 +5,7 @@
 package UI;
 
 import Classes.Block;
+import Classes.SimulatedDisc;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,19 +23,17 @@ import javax.swing.JToggleButton;
 public class SD extends javax.swing.JFrame {
 
     Block[] blocks;
-
+    static SimulatedDisc sd;
     /**
      * Creates new form SD
      */
-    public SD() {
-        this.blocks = new Block[120];
-        for (int i = 0; i < 120; i++) {
+    public SD(SimulatedDisc sd) {
+        this.sd = sd;
+        this.blocks = new Block[sd.total_blocks];
+        for (int i = 0; i < sd.total_blocks; i++) {
             blocks[i] = new Block(i + 1);
-            if (i % 2 == 0) {
-                blocks[i].ocupado = true;
-            }
         }
-        int numBotones = 120;
+        int numBotones = sd.total_blocks;
         initComponents();
         setTitle("Tablero de JToggleButtons");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -141,7 +140,7 @@ public class SD extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SD().setVisible(true);
+                new SD(sd).setVisible(true);
             }
         });
     }

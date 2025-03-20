@@ -34,17 +34,17 @@ public class ArbolFS extends javax.swing.JFrame {
     public ArbolFS() {
         initComponents();
         this.setVisible(false);
-        JFrame frame = new JFrame("Dynamic JTree Example");
+        JFrame frame = new JFrame("File System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        fileSystem = new FileSystem(45);
-        fileSystem.getRootDirectory().addFile(new FileEntry("asg", WIDTH, 12, "sda"));
-        fileSystem.getRootDirectory().addFile(new FileEntry("21432", 32, 12, "sda"));
-        fileSystem.getRootDirectory().addFile(new FileEntry("fdsvxc ", 44, 12, "dfsds"));
-
-        fileSystem.getRootDirectory().addSubdirectory(new Directory("S1"));
-        fileSystem.getRootDirectory().addSubdirectory(new Directory("S2"));
-        fileSystem.getRootDirectory().addSubdirectory(new Directory("S3"));
+//        fileSystem = new FileSystem(45);
+//        fileSystem.getRootDirectory().addFile(new FileEntry("asg", WIDTH, 12, "sda"));
+//        fileSystem.getRootDirectory().addFile(new FileEntry("21432", 32, 12, "sda"));
+//        fileSystem.getRootDirectory().addFile(new FileEntry("fdsvxc ", 44, 12, "dfsds"));
+//
+//        fileSystem.getRootDirectory().addSubdirectory(new Directory("S1"));
+//        fileSystem.getRootDirectory().addSubdirectory(new Directory("S2"));
+//        fileSystem.getRootDirectory().addSubdirectory(new Directory("S3"));
 
         tree = new JTree(this.actualizar());
         JScrollPane scrollPane = new JScrollPane(tree);
