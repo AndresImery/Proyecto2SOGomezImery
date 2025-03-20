@@ -10,7 +10,7 @@ import java.util.*;
  *
  * @author andresimery
  */
-class FileSystem { // Sistema
+public class FileSystem { // Sistema
 
     private Directory rootDirectory;
     private int availableSpace;
@@ -21,6 +21,32 @@ class FileSystem { // Sistema
         this.availableSpace = totalSpace;
         this.allocationTable = new HashMap<>();
     }
+
+    public Directory getRootDirectory() {
+        return rootDirectory;
+    }
+
+    public void setRootDirectory(Directory rootDirectory) {
+        this.rootDirectory = rootDirectory;
+    }
+
+    public int getAvailableSpace() {
+        return availableSpace;
+    }
+
+    public void setAvailableSpace(int availableSpace) {
+        this.availableSpace = availableSpace;
+    }
+
+    public Map<String, Integer> getAllocationTable() {
+        return allocationTable;
+    }
+
+    public void setAllocationTable(Map<String, Integer> allocationTable) {
+        this.allocationTable = allocationTable;
+    }
+    
+    
 
     public void createFile(String name, int size, String permissions) {
         if (size > availableSpace) {
