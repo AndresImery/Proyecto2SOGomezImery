@@ -4,8 +4,9 @@
  */
 package main;
 
-import UI.ArbolFS;
-import UI.SD;
+import Classes.*;
+import UI.*;
+//import UI.SD;
 
 /**
  *
@@ -17,10 +18,9 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-//        SD s= new SD();
-// Pruebaa comment
-ArbolFS s = new ArbolFS();
+        FileSystem fileSystem = JSONManager.loadSystem();
+
+        ArbolFS s = new ArbolFS(fileSystem);
 //        s.setVisible(true);
     }
     
