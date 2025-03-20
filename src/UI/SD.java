@@ -27,14 +27,14 @@ public class SD extends javax.swing.JFrame {
      * Creates new form SD
      */
     public SD() {
-        this.blocks = new Block[30];
-        for (int i = 0; i < 30; i++) {
+        this.blocks = new Block[120];
+        for (int i = 0; i < 120; i++) {
             blocks[i] = new Block(i + 1);
             if (i % 2 == 0) {
                 blocks[i].ocupado = true;
             }
         }
-        int numBotones = 30;
+        int numBotones = 120;
         initComponents();
         setTitle("Tablero de JToggleButtons");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +45,7 @@ public class SD extends javax.swing.JFrame {
 
         crearTablero(numBotones, maxColumnas, filas);
 
-        setSize(500, 400); 
+        setSize(1200, 1000); 
         setLocationRelativeTo(null);
         setVisible(true);
     }

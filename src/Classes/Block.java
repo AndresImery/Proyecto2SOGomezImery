@@ -8,11 +8,13 @@ package Classes;
  *
  * @author andresimery
  */
-class Block { // Bloques
+public class Block { // Bloques
     private int id;
+    public boolean ocupado;
     private Block nextBlock;
 
     public Block(int id) {
+        this.ocupado = false;
         this.id = id;
         nextBlock = null;
     }
