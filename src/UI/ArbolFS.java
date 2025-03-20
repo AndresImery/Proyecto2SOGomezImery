@@ -17,6 +17,8 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import Classes.FileSystem;
+import Classes.FileTreeContextMenu;
+import javax.swing.JMenuItem;
 import structures.Node;
 
 /**
@@ -25,18 +27,19 @@ import structures.Node;
  */
 public class ArbolFS extends javax.swing.JFrame {
 
-    JTree tree;
-    FileSystem fileSystem;
+    private static JTree tree;
+    private static FileSystem fileSystem;
 
     /**
      * Creates new form ArbolFS
      */
-    public ArbolFS() {
+    public ArbolFS(FileSystem fileSystem) {
         initComponents();
-        this.setVisible(false);
-        JFrame frame = new JFrame("File System");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+//        this.setVisible(false);
+        this.fileSystem = fileSystem;
+//        JFrame frame = new JFrame("File System");
+//        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
 //        fileSystem = new FileSystem(45);
 //        fileSystem.getRootDirectory().addFile(new FileEntry("asg", WIDTH, 12, "sda"));
 //        fileSystem.getRootDirectory().addFile(new FileEntry("21432", 32, 12, "sda"));
@@ -47,19 +50,29 @@ public class ArbolFS extends javax.swing.JFrame {
 //        fileSystem.getRootDirectory().addSubdirectory(new Directory("S3"));
 
         tree = new JTree(this.actualizar());
+        new FileTreeContextMenu(tree, fileSystem, this);
         JScrollPane scrollPane = new JScrollPane(tree);
+
+        
 
         Dimension preferredSize = new Dimension(300, 300);
         tree.setPreferredSize(preferredSize);
         scrollPane.setPreferredSize(preferredSize);
 
-        frame.add(scrollPane, BorderLayout.CENTER);
+        jPanelJTree.add(scrollPane, BorderLayout.CENTER);
 
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+//        jPanelJTree.pack();
+
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
 
     }
+    
+   public void updateTree() {
+        tree = new JTree(this.actualizar());
+   }
+    
+    
 
     public DefaultMutableTreeNode actualizar() {
         DefaultMutableTreeNode root = this.recorrer(fileSystem.getRootDirectory());
@@ -93,31 +106,25 @@ public class ArbolFS extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanelJTree = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanelJTree.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jPanelJTree, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 350));
+
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 190, -1, -1));
+        jButton1.setText("Ver SD");
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 570));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 580, 130));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,7 +156,7 @@ public class ArbolFS extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ArbolFS().setVisible(true);
+                new ArbolFS(fileSystem).setVisible(true);
             }
         });
     }
@@ -157,5 +164,6 @@ public class ArbolFS extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelJTree;
     // End of variables declaration//GEN-END:variables
 }
