@@ -68,7 +68,7 @@ public class SimulatedDisc {
             return null;
         }
 
-        // Crear archivo con referencia al primer bloque asignado
+   
 //        FileEntry f = new FileEntry(name, size, firstBlock.getId(), permissions);
 //        directory.addFile(f);
         this.available_blocks -= size;
@@ -94,28 +94,27 @@ public class SimulatedDisc {
     }
     
     public void loadFilesToBlocks() {
-        // Reiniciar todos los bloques
+
         for (Block block : blocks) {
             block.ocupado = false;
             block.setNextBlock(null);
         }
         available_blocks = total_blocks;
 
-        // Recorrer el sistema de archivos y asignar bloques encadenados
         assignBlocksRecursive(fileSystem.getRootDirectory());
     }
 
 
     private void assignBlocksRecursive(Directory dir) {
-        // Asignar a los archivos de este directorio
+
         Node fileNode = dir.getFiles().getHead();
         while (fileNode != null) {
             FileEntry file = (FileEntry) fileNode.getData();
-            assignBlocksToFile(file); // 🔗 encadena bloques
+            assignBlocksToFile(file); 
             fileNode = fileNode.getNext();
         }
 
-        // Repetir en subdirectorios
+
         Node subNode = dir.getSubdirectories().getHead();
         while (subNode != null) {
             Directory subDir = (Directory) subNode.getData();

@@ -42,18 +42,18 @@ public class FileTreeContextMenu {
         menu.add(delete);
         menu.add(update);
 
-        // Evento para agregar un directorio
+        
         addDirectory.addActionListener(e -> agregarDirectorio());
 
-        // Evento para agregar un archivo
+
         addFile.addActionListener(e -> agregarArchivo());
 
-        // Evento para eliminar un nodo
+       
         delete.addActionListener(e -> eliminarNodo());
 
         update.addActionListener(e -> update());
 
-        // Agregar el listener de click derecho al JTree
+        
         tree.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -83,7 +83,7 @@ public class FileTreeContextMenu {
             return;
         }
         Directory parentDir = this.buscarDir(selectedNode.getParent().toString(), this.fileSystem.getRootDirectory());
-        String nombre = JOptionPane.showInputDialog(null, selectedNode.toString() + "Nombre del Archivo:");
+        String nombre = JOptionPane.showInputDialog(null, "Nombre del Archivo:");
         if (nombre != null && !nombre.trim().isEmpty()) {
             String name = selectedNode.toString().split("-")[0].trim();
             FileEntry f = this.buscarArchivo(parentDir, name);
@@ -106,7 +106,7 @@ public class FileTreeContextMenu {
     private void mostrarMenu(MouseEvent e) {
         TreePath path = tree.getPathForLocation(e.getX(), e.getY());
         if (path != null) {
-            tree.setSelectionPath(path); // Seleccionamos el nodo sobre el que hicimos click derecho
+            tree.setSelectionPath(path); 
             menu.show(tree, e.getX(), e.getY());
         }
     }
@@ -125,12 +125,10 @@ public class FileTreeContextMenu {
         if (nombre != null && !nombre.trim().isEmpty() && !nombre.contains("-")) {
             Directory nuevoDir = new Directory(nombre);
 
-            // Agregar el nuevo directorio al sistema de archivos
             if (parentDir != null) {
                 parentDir.addSubdirectory(nuevoDir);
             }
 
-            // Agregar el nodo al JTree
             DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(nombre);
             selectedNode.add(newNode);
 
@@ -146,7 +144,6 @@ public class FileTreeContextMenu {
             return;
         }
 
-        // Obtener el directorio padre
         Directory parentDir = this.buscarDir(selectedNode.toString(), this.fileSystem.getRootDirectory());
         if (parentDir != null) {
             new NewFile(fileSystem, parentDir, this.tree, this, simulatedDisc);
@@ -181,7 +178,6 @@ public class FileTreeContextMenu {
 
         String target = selectedNode.toString();
 
-        // 1. Eliminar de lista de archivos
         Node fileNode = parentDir.getFiles().getHead();
         while (fileNode != null) {
             FileEntry f = (FileEntry) fileNode.getData();
@@ -195,7 +191,6 @@ public class FileTreeContextMenu {
             fileNode = fileNode.getNext();
         }
 
-        // 2. Eliminar subdirectorio (si aplica)
         Node dirNode = parentDir.getSubdirectories().getHead();
         while (dirNode != null) {
             Directory d = (Directory) dirNode.getData();
@@ -204,24 +199,44 @@ public class FileTreeContextMenu {
                 while (fn != null) {
                     FileEntry f = (FileEntry) fn.getData();
 
-                    // Liberar bloques
                     simulatedDisc.releaseBlocks(f.getStartBlock());
                     d.getFiles().remove(f);
                     fn = fn.getNext();
 
                 }
+                eliminarSubDirectorios(d);
                 parentDir.getSubdirectories().remove(d);
 
             }
             dirNode = dirNode.getNext();
         }
-        // 3. Eliminar visualmente en el árbol
+
         parentNode.remove(selectedNode);
         actualizarArbol();
         arbolfs.updateTable();
         simulatedDisc.printBlocks();
         arbolfs.jm.saveSystem(fileSystem);
 
+    }
+
+    public void eliminarSubDirectorios(Directory actual) {
+        if (actual != null) {
+            Node aux = actual.getSubdirectories().getHead();
+            while (aux != null) {
+                Directory d = (Directory) aux.getData();
+                Node fn = d.getFiles().getHead();
+                while (fn != null) {
+                    FileEntry f = (FileEntry) fn.getData();
+                    simulatedDisc.releaseBlocks(f.getStartBlock());
+                    d.getFiles().remove(f);
+                    fn = fn.getNext();
+
+                }
+                eliminarSubDirectorios(d);
+                aux = aux.getNext();
+            }
+
+        }
     }
 
     public void actualizarArbol() {

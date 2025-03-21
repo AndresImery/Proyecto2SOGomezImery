@@ -7,11 +7,11 @@
     "subdirectories": {
       "head": {
         "data": {
-          "name": "Documentos",
+          "name": "Documents",
           "files": {
             "head": {
               "data": {
-                "name": "Resumen.pdf",
+                "name": "Resume.pdf",
                 "sizeInBlocks": 5,
                 "startBlock": 0,
                 "permissions": "read"
