@@ -125,16 +125,55 @@ public class FileTreeContextMenu {
 
     private void eliminarNodo() {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        if (selectedNode == null || selectedNode.isRoot()) {
+        if (selectedNode == null || selectedNode.isRoot()) return;
+
+        int confirm = JOptionPane.showConfirmDialog(null,
+            "¿Eliminar '" + selectedNode.toString() + "'?", "Confirmar", JOptionPane.YES_NO_OPTION);
+
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) selectedNode.getParent();
+        String parentName = parentNode.toString();
+        Directory parentDir = buscarDirectorio(parentName);
+
+        if (parentDir == null) {
+            JOptionPane.showMessageDialog(null, "No se encontró el directorio padre en el sistema.");
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(null, "¿Eliminar '" + selectedNode.toString() + "'?", "Confirmar", JOptionPane.YES_NO_OPTION);
-        if (confirm == JOptionPane.YES_OPTION) {
-            ((DefaultMutableTreeNode) selectedNode.getParent()).remove(selectedNode);
-            actualizarArbol();
+        String target = selectedNode.toString();
+
+        // 1. Eliminar de lista de archivos
+        Node fileNode = parentDir.getFiles().getHead();
+        while (fileNode != null) {
+            FileEntry f = (FileEntry) fileNode.getData();
+            if (target.contains(f.getName())) {
+                // Liberar bloques
+                simulatedDisc.releaseBlocks(f.getStartBlock());
+                parentDir.getFiles().remove(f);
+                JSONManager.saveSystem(fileSystem);
+                break;
+            }
+            fileNode = fileNode.getNext();
         }
+
+        // 2. Eliminar subdirectorio (si aplica)
+        Node dirNode = parentDir.getSubdirectories().getHead();
+        while (dirNode != null) {
+            Directory d = (Directory) dirNode.getData();
+            if (d.getName().equals(target)) {
+                parentDir.getSubdirectories().remove(d);
+                JSONManager.saveSystem(fileSystem);
+                break;
+            }
+            dirNode = dirNode.getNext();
+        }
+
+        // 3. Eliminar visualmente en el árbol
+        parentNode.remove(selectedNode);
+        actualizarArbol();
     }
+
 
     public void actualizarArbol() {
         ((DefaultTreeModel) tree.getModel()).reload();
