@@ -45,6 +45,7 @@ public class SD extends javax.swing.JFrame {
 
         setSize(screenSize.width, screenSize.height); 
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 
