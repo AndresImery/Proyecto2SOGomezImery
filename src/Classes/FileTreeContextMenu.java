@@ -172,6 +172,8 @@ public class FileTreeContextMenu {
         // 3. Eliminar visualmente en el árbol
         parentNode.remove(selectedNode);
         actualizarArbol();
+        arbolfs.updateTable();
+        simulatedDisc.printBlocks();
     }
 
 
@@ -190,4 +192,10 @@ public class FileTreeContextMenu {
         }
         return null;
     }
+
+    public ArbolFS getArbolfs() {
+        return arbolfs;
+    }
+    
+    
 }

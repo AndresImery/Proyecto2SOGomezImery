@@ -210,8 +210,12 @@ public class NewFile extends javax.swing.JFrame {
         ((DefaultTreeModel) tree.getModel()).reload(selectedNode);
         
         
+        if (menu != null) {
+            menu.actualizarArbol();
+            menu.getArbolfs().updateTable(); // Asegúrate de pasar referencia
+        }
 
-        
+        simulatedDisc.printBlocks();
         this.dispose(); // Cierra la ventana después de la creación
     }//GEN-LAST:event_jButtonCreateActionPerformed
 

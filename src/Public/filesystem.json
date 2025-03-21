@@ -97,6 +97,14 @@
                                   "sizeInBlocks": 2,
                                   "startBlock": 42,
                                   "permissions": "read/write"
+                                },
+                                "next": {
+                                  "data": {
+                                    "name": "Otra",
+                                    "sizeInBlocks": 2,
+                                    "startBlock": 44,
+                                    "permissions": "read/write"
+                                  }
                                 }
                               }
                             }
@@ -107,7 +115,7 @@
                   }
                 }
               },
-              "size": 9
+              "size": 10
             },
             "subdirectories": {
               "size": 0
@@ -121,35 +129,19 @@
                   "data": {
                     "name": "Clip.avi",
                     "sizeInBlocks": 20,
-                    "startBlock": 60,
+                    "startBlock": 46,
                     "permissions": "read"
                   },
                   "next": {
                     "data": {
                       "name": "Play.mp4",
                       "sizeInBlocks": 10,
-                      "startBlock": 0,
+                      "startBlock": 66,
                       "permissions": "read/write"
-                    },
-                    "next": {
-                      "data": {
-                        "name": "Hola",
-                        "sizeInBlocks": 3,
-                        "startBlock": 0,
-                        "permissions": "read/write"
-                      },
-                      "next": {
-                        "data": {
-                          "name": "Chao",
-                          "sizeInBlocks": 3,
-                          "startBlock": 0,
-                          "permissions": "read/write"
-                        }
-                      }
                     }
                   }
                 },
-                "size": 4
+                "size": 2
               },
               "subdirectories": {
                 "size": 0
