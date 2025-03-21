@@ -194,7 +194,7 @@ public class NewFile extends javax.swing.JFrame {
         
         FileEntry newFile = new FileEntry(fileName, fileSize, block, "read/write");
         parentDirectory.addFile(newFile);
-        // Guardar cambios en JSON
+     
         JSONManager.saveSystem(fileSystem);
         
         JOptionPane.showMessageDialog(this, "Archivo creado con éxito.");
@@ -213,11 +213,11 @@ public class NewFile extends javax.swing.JFrame {
         
         if (menu != null) {
             menu.actualizarArbol();
-            menu.getArbolfs().updateTable(); // Asegúrate de pasar referencia
+            menu.getArbolfs().updateTable();
         }
 
         simulatedDisc.printBlocks();
-        this.dispose(); // Cierra la ventana después de la creación
+        this.dispose(); 
         }catch(Exception e){
             
         }
