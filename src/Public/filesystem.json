@@ -1,0 +1,222 @@
+{
+  "rootDirectory": {
+    "name": "root",
+    "files": {
+      "size": 0
+    },
+    "subdirectories": {
+      "head": {
+        "data": {
+          "name": "Documents",
+          "files": {
+            "head": {
+              "data": {
+                "name": "Resume.pdf",
+                "sizeInBlocks": 5,
+                "startBlock": 12,
+                "blockList": {
+                  "size": 0
+                },
+                "permissions": "read"
+              },
+              "next": {
+                "data": {
+                  "name": "Report.docx",
+                  "sizeInBlocks": 3,
+                  "startBlock": 15,
+                  "blockList": {
+                    "size": 0
+                  },
+                  "permissions": "read/write"
+                }
+              }
+            },
+            "size": 2
+          },
+          "subdirectories": {
+            "size": 0
+          }
+        },
+        "next": {
+          "data": {
+            "name": "Images",
+            "files": {
+              "head": {
+                "data": {
+                  "name": "Photo1.jpg",
+                  "sizeInBlocks": 8,
+                  "startBlock": 20,
+                  "blockList": {
+                    "size": 0
+                  },
+                  "permissions": "read"
+                },
+                "next": {
+                  "data": {
+                    "name": "Photo2.png",
+                    "sizeInBlocks": 10,
+                    "startBlock": 30,
+                    "blockList": {
+                      "size": 0
+                    },
+                    "permissions": "read"
+                  },
+                  "next": {
+                    "data": {
+                      "name": "Foto2.png",
+                      "sizeInBlocks": 3,
+                      "startBlock": 0,
+                      "blockList": {
+                        "size": 0
+                      },
+                      "permissions": "read/write"
+                    },
+                    "next": {
+                      "data": {
+                        "name": "File.cask",
+                        "sizeInBlocks": 2,
+                        "startBlock": 0,
+                        "blockList": {
+                          "size": 0
+                        },
+                        "permissions": "read/write"
+                      },
+                      "next": {
+                        "data": {
+                          "name": "Cosa 1",
+                          "sizeInBlocks": 2,
+                          "startBlock": 0,
+                          "blockList": {
+                            "size": 0
+                          },
+                          "permissions": "read/write"
+                        },
+                        "next": {
+                          "data": {
+                            "name": "Cosita Linda.arc",
+                            "sizeInBlocks": 3,
+                            "startBlock": 0,
+                            "blockList": {
+                              "size": 0
+                            },
+                            "permissions": "read/write"
+                          },
+                          "next": {
+                            "data": {
+                              "name": "Andres.arci",
+                              "sizeInBlocks": 3,
+                              "startBlock": 0,
+                              "blockList": {
+                                "size": 0
+                              },
+                              "permissions": "read/write"
+                            },
+                            "next": {
+                              "data": {
+                                "name": "Hola",
+                                "sizeInBlocks": 3,
+                                "startBlock": 0,
+                                "blockList": {
+                                  "size": 0
+                                },
+                                "permissions": "read/write"
+                              },
+                              "next": {
+                                "data": {
+                                  "name": "Que cosa",
+                                  "sizeInBlocks": 2,
+                                  "startBlock": 0,
+                                  "blockList": {
+                                    "size": 0
+                                  },
+                                  "permissions": "read/write"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "size": 9
+            },
+            "subdirectories": {
+              "size": 0
+            }
+          },
+          "next": {
+            "data": {
+              "name": "Videos",
+              "files": {
+                "head": {
+                  "data": {
+                    "name": "Movie.mp4",
+                    "sizeInBlocks": 50,
+                    "startBlock": 40,
+                    "blockList": {
+                      "size": 0
+                    },
+                    "permissions": "read"
+                  },
+                  "next": {
+                    "data": {
+                      "name": "Clip.avi",
+                      "sizeInBlocks": 20,
+                      "startBlock": 60,
+                      "blockList": {
+                        "size": 0
+                      },
+                      "permissions": "read"
+                    },
+                    "next": {
+                      "data": {
+                        "name": "Play.mp4",
+                        "sizeInBlocks": 10,
+                        "startBlock": 0,
+                        "blockList": {
+                          "size": 0
+                        },
+                        "permissions": "read/write"
+                      },
+                      "next": {
+                        "data": {
+                          "name": "Hola",
+                          "sizeInBlocks": 3,
+                          "startBlock": 0,
+                          "blockList": {
+                            "size": 0
+                          },
+                          "permissions": "read/write"
+                        },
+                        "next": {
+                          "data": {
+                            "name": "Chao",
+                            "sizeInBlocks": 3,
+                            "startBlock": 0,
+                            "blockList": {
+                              "size": 0
+                            },
+                            "permissions": "read/write"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "size": 5
+              },
+              "subdirectories": {
+                "size": 0
+              }
+            }
+          }
+        }
+      },
+      "size": 3
+    }
+  },
+  "availableSpace": 100,
+  "allocationTable": {}
+}

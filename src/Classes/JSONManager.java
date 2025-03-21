@@ -10,8 +10,8 @@ import java.io.*;
  *
  * @author andresimery
  */
-class JSONManager { // Manager para guardar todo en la comp
-    private static final String FILE_PATH = "filesystem.json";
+public class JSONManager { // Manager para guardar todo en la comp
+    private static final String FILE_PATH = "./src/Public/filesystem.json";
     
     public static void saveSystem(FileSystem system) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
