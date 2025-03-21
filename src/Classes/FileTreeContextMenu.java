@@ -82,19 +82,23 @@ public class FileTreeContextMenu {
         if (selectedNode == null) {
             return;
         }
-        Directory parentDir = buscarDirectorio(selectedNode.getParent().toString());
-        String nombre = JOptionPane.showInputDialog(null, "Nombre del Archivo:");
+        Directory parentDir = this.buscarDir(selectedNode.getParent().toString(), this.fileSystem.getRootDirectory());
+        String nombre = JOptionPane.showInputDialog(null, selectedNode.toString() + "Nombre del Archivo:");
         if (nombre != null && !nombre.trim().isEmpty()) {
-            FileEntry f = this.buscarArchivo(selectedNode.toString(), parentDir.getName());
+            String name = selectedNode.toString().split("-")[0].trim();
+            FileEntry f = this.buscarArchivo(parentDir, name);
             if (f != null) {
                 f.setName(nombre);
+                selectedNode.setUserObject(nombre + "      -" + selectedNode.toString().split("-")[1].trim());
+
             } else {
-                Directory d = this.buscarDirectorio(selectedNode.toString());
+                Directory d = this.buscarDir(selectedNode.toString(), this.fileSystem.getRootDirectory());
                 d.setName(nombre);
+                selectedNode.setUserObject(nombre);
             }
-            selectedNode.setUserObject(nombre);
 
         }
+        arbolfs.jm.saveSystem(fileSystem);
         actualizarArbol();
 
     }
@@ -112,13 +116,13 @@ public class FileTreeContextMenu {
         if (selectedNode == null) {
             return;
         }
-        Directory parentDir = buscarDirectorio(selectedNode.toString());
+        Directory parentDir = this.buscarDir(selectedNode.toString(), this.fileSystem.getRootDirectory());
         if (parentDir == null) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un directorio para agregar un subdirectorio.");
             return;
         }
         String nombre = JOptionPane.showInputDialog(null, "Nombre del Directorio:");
-        if (nombre != null && !nombre.trim().isEmpty()) {
+        if (nombre != null && !nombre.trim().isEmpty() && !nombre.contains("-")) {
             Directory nuevoDir = new Directory(nombre);
 
             // Agregar el nuevo directorio al sistema de archivos
@@ -131,6 +135,8 @@ public class FileTreeContextMenu {
             selectedNode.add(newNode);
 
             actualizarArbol();
+            arbolfs.jm.saveSystem(fileSystem);
+
         }
     }
 
@@ -141,12 +147,14 @@ public class FileTreeContextMenu {
         }
 
         // Obtener el directorio padre
-        Directory parentDir = buscarDirectorio(selectedNode.toString());
+        Directory parentDir = this.buscarDir(selectedNode.toString(), this.fileSystem.getRootDirectory());
         if (parentDir != null) {
             new NewFile(fileSystem, parentDir, this.tree, this, simulatedDisc);
         } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un directorio para agregar un archivo.");
         }
+        arbolfs.jm.saveSystem(fileSystem);
+
     }
 
     private void eliminarNodo() {
@@ -164,7 +172,7 @@ public class FileTreeContextMenu {
 
         DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) selectedNode.getParent();
         String parentName = parentNode.toString();
-        Directory parentDir = buscarDirectorio(parentName);
+        Directory parentDir = this.buscarDir(parentName, this.fileSystem.getRootDirectory());
 
         if (parentDir == null) {
             JOptionPane.showMessageDialog(null, "No se encontró el directorio padre en el sistema.");
@@ -192,18 +200,28 @@ public class FileTreeContextMenu {
         while (dirNode != null) {
             Directory d = (Directory) dirNode.getData();
             if (d.getName().equals(target)) {
+                Node fn = d.getFiles().getHead();
+                while (fn != null) {
+                    FileEntry f = (FileEntry) fn.getData();
+
+                    // Liberar bloques
+                    simulatedDisc.releaseBlocks(f.getStartBlock());
+                    d.getFiles().remove(f);
+                    fn = fn.getNext();
+
+                }
                 parentDir.getSubdirectories().remove(d);
-                JSONManager.saveSystem(fileSystem);
-                break;
+
             }
             dirNode = dirNode.getNext();
         }
-
         // 3. Eliminar visualmente en el árbol
         parentNode.remove(selectedNode);
         actualizarArbol();
         arbolfs.updateTable();
         simulatedDisc.printBlocks();
+        arbolfs.jm.saveSystem(fileSystem);
+
     }
 
     public void actualizarArbol() {
@@ -225,19 +243,42 @@ public class FileTreeContextMenu {
         return null;
     }
 
-    private FileEntry buscarArchivo(String nombre, String archivo) {
-        Directory dir = this.buscarDirectorio(nombre);
+    public Directory buscarDir(String nombre, Directory actual) {
+        if (actual == null || actual.getName().equals(nombre)) {
+            return actual;
+        } else {
+            Node aux = actual.getSubdirectories().getHead();
+            if (aux == null) {
+                return null;
+            }
+            Directory dir = (Directory) aux.getData();
+            Directory buscado = dir;
+            while (aux != null) {
+                buscado = buscarDir(nombre, dir);
+                if (buscado != null) {
+                    return buscado;
+                }
+                aux = aux.getNext();
+                Directory d = (Directory) aux.getData();
+
+            }
+            return null;
+        }
+    }
+
+    private FileEntry buscarArchivo(Directory dir, String archivo) {
+
         if (dir != null) {
-            FileEntry file = dir.getFiles().search(nombre);
+            FileEntry file = dir.getFiles().search(archivo);
             if (file != null) {
                 return file;
             }
         }
         return null;
     }
+
     public ArbolFS getArbolfs() {
         return arbolfs;
     }
-    
-   
+
 }

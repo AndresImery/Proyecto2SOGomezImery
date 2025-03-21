@@ -186,8 +186,9 @@ public class NewFile extends javax.swing.JFrame {
         
         if (!simulatedDisc.checkSize(fileSize)) {
             this.dispose();
+            
         }
-        
+        try{
         int block = simulatedDisc.createFile(fileName, fileSize, "read/write", parentDirectory);  
         
         
@@ -205,7 +206,7 @@ public class NewFile extends javax.swing.JFrame {
             return;
         }
 
-        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(fileName + " (" + fileSize + " blocks)");
+        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(fileName + "   -" + fileSize + " blocks");
         selectedNode.add(newNode);
         ((DefaultTreeModel) tree.getModel()).reload(selectedNode);
         
@@ -217,6 +218,9 @@ public class NewFile extends javax.swing.JFrame {
 
         simulatedDisc.printBlocks();
         this.dispose(); // Cierra la ventana después de la creación
+        }catch(Exception e){
+            
+        }
     }//GEN-LAST:event_jButtonCreateActionPerformed
 
     /**
