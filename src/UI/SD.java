@@ -11,6 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -29,22 +30,20 @@ public class SD extends javax.swing.JFrame {
      */
     public SD(SimulatedDisc sd) {
         this.sd = sd;
-        this.blocks = new Block[sd.total_blocks];
-        for (int i = 0; i < sd.total_blocks; i++) {
-            blocks[i] = new Block(i + 1);
-        }
+        this.blocks = sd.blocks;
         int numBotones = sd.total_blocks;
         initComponents();
         setTitle("Tablero de JToggleButtons");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        int maxColumnas = 5; 
+        int maxColumnas = 9; 
         int filas = (int) Math.ceil((double) numBotones / maxColumnas); 
         setLayout(new GridBagLayout()); 
 
 
         crearTablero(numBotones, maxColumnas, filas);
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        setSize(1200, 1000); 
+        setSize(screenSize.width, screenSize.height); 
         setLocationRelativeTo(null);
         setVisible(true);
     }
