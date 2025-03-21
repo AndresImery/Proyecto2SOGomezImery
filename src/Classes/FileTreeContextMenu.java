@@ -4,7 +4,6 @@
  */
 package Classes;
 
-
 import javax.swing.*;
 import javax.swing.tree.*;
 import java.awt.*;
@@ -18,17 +17,19 @@ import UI.*;
  * @author andresimery
  */
 public class FileTreeContextMenu {
+
     private JTree tree;
     private JPopupMenu menu;
     private FileSystem fileSystem;
     private ArbolFS arbolfs;
-    
+    int mode;
+
     public FileTreeContextMenu(JTree tree, FileSystem fileSystem, ArbolFS arbolfs) {
         this.tree = tree;
         this.fileSystem = fileSystem;
         this.menu = new JPopupMenu();
         this.arbolfs = arbolfs;
-        
+
         JMenuItem addDirectory = new JMenuItem("➕ Agregar Directorio");
         JMenuItem addFile = new JMenuItem("📄 Agregar Archivo");
         JMenuItem delete = new JMenuItem("❌ Eliminar");
@@ -51,14 +52,20 @@ public class FileTreeContextMenu {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    mostrarMenu(e);
+                    if (arbolfs.mode == 1) {
+                        mostrarMenu(e);
+
+                    }
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    mostrarMenu(e);
+                    if (arbolfs.mode == 1) {
+                        mostrarMenu(e);
+
+                    }
                 }
             }
         });
@@ -74,14 +81,19 @@ public class FileTreeContextMenu {
 
     private void agregarDirectorio() {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        if (selectedNode == null) return;
-
+        if (selectedNode == null) {
+            return;
+        }
+        Directory parentDir = buscarDirectorio(selectedNode.toString());
+        if (parentDir == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un directorio para agregar un subdirectorio.");
+            return;
+        }
         String nombre = JOptionPane.showInputDialog(null, "Nombre del Directorio:");
         if (nombre != null && !nombre.trim().isEmpty()) {
             Directory nuevoDir = new Directory(nombre);
-            
+
             // Agregar el nuevo directorio al sistema de archivos
-            Directory parentDir = buscarDirectorio(selectedNode.toString());
             if (parentDir != null) {
                 parentDir.addSubdirectory(nuevoDir);
             }
@@ -96,7 +108,9 @@ public class FileTreeContextMenu {
 
     private void agregarArchivo() {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        if (selectedNode == null) return;
+        if (selectedNode == null) {
+            return;
+        }
 
         // Obtener el directorio padre
         Directory parentDir = buscarDirectorio(selectedNode.toString());
@@ -107,10 +121,11 @@ public class FileTreeContextMenu {
         }
     }
 
-
     private void eliminarNodo() {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        if (selectedNode == null || selectedNode.isRoot()) return;
+        if (selectedNode == null || selectedNode.isRoot()) {
+            return;
+        }
 
         int confirm = JOptionPane.showConfirmDialog(null, "¿Eliminar '" + selectedNode.toString() + "'?", "Confirmar", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
@@ -127,10 +142,11 @@ public class FileTreeContextMenu {
         Node aux = fileSystem.getRootDirectory().getSubdirectories().getHead();
         while (aux != null) {
             Directory dir = (Directory) aux.getData();
-            if (dir.getName().equals(nombre)) return dir;
+            if (dir.getName().equals(nombre)) {
+                return dir;
+            }
             aux = aux.getNext();
         }
         return null;
     }
 }
-
