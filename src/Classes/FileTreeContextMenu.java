@@ -35,10 +35,12 @@ public class FileTreeContextMenu {
         JMenuItem addDirectory = new JMenuItem("➕ Agregar Directorio");
         JMenuItem addFile = new JMenuItem("📄 Agregar Archivo");
         JMenuItem delete = new JMenuItem("❌ Eliminar");
+        JMenuItem update = new JMenuItem("❌ Cambiar nombre");
 
         menu.add(addDirectory);
         menu.add(addFile);
         menu.add(delete);
+        menu.add(update);
 
         // Evento para agregar un directorio
         addDirectory.addActionListener(e -> agregarDirectorio());
@@ -48,6 +50,8 @@ public class FileTreeContextMenu {
 
         // Evento para eliminar un nodo
         delete.addActionListener(e -> eliminarNodo());
+
+        update.addActionListener(e -> update());
 
         // Agregar el listener de click derecho al JTree
         tree.addMouseListener(new MouseAdapter() {
@@ -71,6 +75,28 @@ public class FileTreeContextMenu {
                 }
             }
         });
+    }
+
+    private void update() {
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+        if (selectedNode == null) {
+            return;
+        }
+        Directory parentDir = buscarDirectorio(selectedNode.getParent().toString());
+        String nombre = JOptionPane.showInputDialog(null, "Nombre del Archivo:");
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            FileEntry f = this.buscarArchivo(selectedNode.toString(), parentDir.getName());
+            if (f != null) {
+                f.setName(nombre);
+            } else {
+                Directory d = this.buscarDirectorio(selectedNode.toString());
+                d.setName(nombre);
+            }
+            selectedNode.setUserObject(nombre);
+
+        }
+        actualizarArbol();
+
     }
 
     private void mostrarMenu(MouseEvent e) {
@@ -125,12 +151,16 @@ public class FileTreeContextMenu {
 
     private void eliminarNodo() {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        if (selectedNode == null || selectedNode.isRoot()) return;
+        if (selectedNode == null || selectedNode.isRoot()) {
+            return;
+        }
 
         int confirm = JOptionPane.showConfirmDialog(null,
-            "¿Eliminar '" + selectedNode.toString() + "'?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                "¿Eliminar '" + selectedNode.toString() + "'?", "Confirmar", JOptionPane.YES_NO_OPTION);
 
-        if (confirm != JOptionPane.YES_OPTION) return;
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
 
         DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) selectedNode.getParent();
         String parentName = parentNode.toString();
@@ -174,12 +204,14 @@ public class FileTreeContextMenu {
         actualizarArbol();
     }
 
-
     public void actualizarArbol() {
         ((DefaultTreeModel) tree.getModel()).reload();
     }
 
     private Directory buscarDirectorio(String nombre) {
+        if (fileSystem.getRootDirectory().getName().equals(nombre)) {
+            return fileSystem.getRootDirectory();
+        }
         Node aux = fileSystem.getRootDirectory().getSubdirectories().getHead();
         while (aux != null) {
             Directory dir = (Directory) aux.getData();
@@ -187,6 +219,17 @@ public class FileTreeContextMenu {
                 return dir;
             }
             aux = aux.getNext();
+        }
+        return null;
+    }
+
+    private FileEntry buscarArchivo(String nombre, String archivo) {
+        Directory dir = this.buscarDirectorio(nombre);
+        if (dir != null) {
+            FileEntry file = dir.getFiles().search(nombre);
+            if (file != null) {
+                return file;
+            }
         }
         return null;
     }
