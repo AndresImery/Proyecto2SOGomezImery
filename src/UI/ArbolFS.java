@@ -22,14 +22,17 @@ import Classes.SimulatedDisc;
 import javax.swing.JMenuItem;
 import structures.Node;
 import Classes.JSONManager;
-
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
+import java.awt.*;
+import javax.swing.UIManager;
 /**
  *
  * @author andre
  */
 public class ArbolFS extends javax.swing.JFrame {
     static SimulatedDisc sd;
-    JSONManager jm;
+    public JSONManager jm;
     private static JTree tree;
     private static FileSystem fileSystem;
     public int mode;
@@ -60,6 +63,36 @@ public class ArbolFS extends javax.swing.JFrame {
 //        fileSystem.getRootDirectory().addSubdirectory(new Directory("S3"));
 
         tree = new JTree(this.actualizar());
+        
+        
+        
+        TreeCellRenderer renderer = new DefaultTreeCellRenderer() {
+            @Override
+            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean a) {
+                // Llamar al método de la superclase para obtener el componente base
+                super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, a);
+
+                // Verificar si el nodo es un nodo hoja especial
+                if (value instanceof DefaultMutableTreeNode) {
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+
+                    String[] nombre = node.toString().split("-");
+                    if (node.isLeaf() && nombre.length== 1) {
+                        // Obtener el nodo padre
+                        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
+                        if (parent != null) {
+                            // Establecer el ícono del nodo padre
+                            setIcon(UIManager.getIcon("FileView.directoryIcon")); // Cambia esto si deseas un ícono diferente
+                        }
+                    }
+                }
+
+                return this;
+            }
+        };
+
+        // Asignar el renderer al JTree
+        tree.setCellRenderer(renderer);
         new FileTreeContextMenu(tree, fileSystem, this, sd);
         JScrollPane scrollPane = new JScrollPane(tree);
 
@@ -118,6 +151,8 @@ public class ArbolFS extends javax.swing.JFrame {
 
     public DefaultMutableTreeNode recorrer(Directory actual) {
         DefaultMutableTreeNode nuevo = new DefaultMutableTreeNode(actual.getName());
+        // Crear un DefaultTreeCellRenderer
+        
         Node aux = actual.getSubdirectories().getHead();
         while (aux != null) {
             nuevo.add(this.recorrer((Directory) aux.getData()));
@@ -127,7 +162,7 @@ public class ArbolFS extends javax.swing.JFrame {
         Node aux2 = actual.getFiles().getHead();
         while (aux2 != null) {
             FileEntry file = (FileEntry) aux2.getData();
-            nuevo.add(new DefaultMutableTreeNode(file.getName() + "    (" + file.getSizeInBlocks() + "blocks)"));
+            nuevo.add(new DefaultMutableTreeNode(file.getName() + "    -" + file.getSizeInBlocks() + " blocks"));
             aux2 = aux2.getNext();
         }
 
