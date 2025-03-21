@@ -18,16 +18,19 @@ public class NewFile extends javax.swing.JFrame {
     private static FileSystem fileSystem;
     private static JTree tree;
     private static FileTreeContextMenu menu;
+    private static SimulatedDisc simulatedDisc;
     
     
     /**
      * Creates new form NewFile
      */
-    public NewFile(FileSystem fileSystem, Directory parentDirectory, JTree tree, FileTreeContextMenu menu) {
+    public NewFile(FileSystem fileSystem, Directory parentDirectory, JTree tree, FileTreeContextMenu menu, SimulatedDisc simulatedDisc) {
         this.fileSystem = fileSystem;
         this.parentDirectory = parentDirectory;
         this.tree = tree;
         this.menu = menu;
+        this.simulatedDisc = simulatedDisc;
+        
         
         initComponents();
         this.setLocationRelativeTo(null);
@@ -179,9 +182,17 @@ public class NewFile extends javax.swing.JFrame {
             return;
         }
         
-        FileEntry newFile = new FileEntry(fileName, fileSize, 0, "read/write");
-        parentDirectory.addFile(newFile);
         
+        
+        if (!simulatedDisc.checkSize(fileSize)) {
+            this.dispose();
+        }
+        
+        int block = simulatedDisc.createFile(fileName, fileSize, "read/write", parentDirectory);  
+        
+        
+        FileEntry newFile = new FileEntry(fileName, fileSize, block, "read/write");
+        parentDirectory.addFile(newFile);
         // Guardar cambios en JSON
         JSONManager.saveSystem(fileSystem);
         
@@ -196,10 +207,10 @@ public class NewFile extends javax.swing.JFrame {
 
         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(fileName + " (" + fileSize + " blocks)");
         selectedNode.add(newNode);
-
         ((DefaultTreeModel) tree.getModel()).reload(selectedNode);
         
         
+
         
         this.dispose(); // Cierra la ventana después de la creación
     }//GEN-LAST:event_jButtonCreateActionPerformed
@@ -234,7 +245,7 @@ public class NewFile extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewFile(fileSystem, parentDirectory, tree, menu).setVisible(true);
+                new NewFile(fileSystem, parentDirectory, tree, menu, simulatedDisc).setVisible(true);
             }
         });
     }

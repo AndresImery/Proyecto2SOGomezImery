@@ -23,12 +23,14 @@ public class FileTreeContextMenu {
     private FileSystem fileSystem;
     private ArbolFS arbolfs;
     int mode;
+    private SimulatedDisc simulatedDisc;
 
-    public FileTreeContextMenu(JTree tree, FileSystem fileSystem, ArbolFS arbolfs) {
+    public FileTreeContextMenu(JTree tree, FileSystem fileSystem, ArbolFS arbolfs, SimulatedDisc simulatedDisc) {
         this.tree = tree;
         this.fileSystem = fileSystem;
         this.menu = new JPopupMenu();
         this.arbolfs = arbolfs;
+        this.simulatedDisc = simulatedDisc;
 
         JMenuItem addDirectory = new JMenuItem("➕ Agregar Directorio");
         JMenuItem addFile = new JMenuItem("📄 Agregar Archivo");
@@ -115,7 +117,7 @@ public class FileTreeContextMenu {
         // Obtener el directorio padre
         Directory parentDir = buscarDirectorio(selectedNode.toString());
         if (parentDir != null) {
-            new NewFile(fileSystem, parentDir, this.tree, this);
+            new NewFile(fileSystem, parentDir, this.tree, this, simulatedDisc);
         } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un directorio para agregar un archivo.");
         }
