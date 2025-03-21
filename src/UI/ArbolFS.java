@@ -70,6 +70,8 @@ public class ArbolFS extends javax.swing.JFrame {
         scrollPane.setPreferredSize(preferredSize);
 
         jPanelJTree.add(scrollPane, BorderLayout.CENTER);
+        updateTable(); // después de cargar el árbol
+
 
 //        jPanelJTree.pack();
 
@@ -77,6 +79,31 @@ public class ArbolFS extends javax.swing.JFrame {
         this.setVisible(true);
 
     }
+    
+    public void updateTable() {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Limpiar tabla
+
+        // Llenar la tabla con los archivos del sistema
+        addFilesToTable(fileSystem.getRootDirectory(), model);
+    }
+
+    private void addFilesToTable(Directory dir, javax.swing.table.DefaultTableModel model) {
+        Node fileNode = dir.getFiles().getHead();
+        while (fileNode != null) {
+            FileEntry f = (FileEntry) fileNode.getData();
+            model.addRow(new Object[]{f.getName(), f.getSizeInBlocks(), f.getStartBlock()});
+            fileNode = fileNode.getNext();
+        }
+
+        Node subNode = dir.getSubdirectories().getHead();
+        while (subNode != null) {
+            Directory sub = (Directory) subNode.getData();
+            addFilesToTable(sub, model); // recursivo
+            subNode = subNode.getNext();
+        }
+    }
+
     
    public void updateTree() {
         tree = new JTree(this.actualizar());
@@ -123,6 +150,8 @@ public class ArbolFS extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -138,7 +167,7 @@ public class ArbolFS extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, -1, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, -1, -1));
 
         jLabel1.setText("Haz click derecho para editar los archivos");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
@@ -149,7 +178,7 @@ public class ArbolFS extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, -1, -1));
 
         jButton4.setText("Guardar JSON");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -157,7 +186,7 @@ public class ArbolFS extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, -1, -1));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, -1, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Modo Administrador", "Modo Usuario" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -165,9 +194,39 @@ public class ArbolFS extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 150, -1));
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 190, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 580, 130));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nombre", "Bloques", "Primer Bloque"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 480, 170));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 580, 270));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -242,5 +301,7 @@ public class ArbolFS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelJTree;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
