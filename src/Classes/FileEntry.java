@@ -13,15 +13,13 @@ import structures.*;
 public class FileEntry { // Archivo
     private String name;
     private int sizeInBlocks;
-    private int startBlock;
-    private LinkedList<Integer> blockList;
+    private int startBlock; // ID del primer bloque
     private String permissions;
 
     public FileEntry(String name, int sizeInBlocks, int startBlock, String permissions) {
         this.name = name;
         this.sizeInBlocks = sizeInBlocks;
         this.startBlock = startBlock;
-        this.blockList = new LinkedList<Integer>();
         this.permissions = permissions;
     }
     
@@ -49,13 +47,13 @@ public class FileEntry { // Archivo
         this.startBlock = startBlock;
     }
 
-    public LinkedList<Integer> getBlockList() {
-        return blockList;
-    }
-
-    public void setBlockList(LinkedList<Integer> blockList) {
-        this.blockList = blockList;
-    }
+//    public LinkedList<Integer> getBlockList() {
+//        return blockList;
+//    }
+//
+//    public void setBlockList(LinkedList<Integer> blockList) {
+//        this.blockList = blockList;
+//    }
 
     public String getPermissions() {
         return permissions;

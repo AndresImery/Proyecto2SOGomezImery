@@ -40,6 +40,7 @@ public class ArbolFS extends javax.swing.JFrame {
     public ArbolFS(FileSystem fileSystem) {
         initComponents();
         this.sd = new SimulatedDisc(50);
+        sd.loadFilesToBlocks(); 
         mode = 1;
        
 //        this.setVisible(false);
@@ -57,7 +58,7 @@ public class ArbolFS extends javax.swing.JFrame {
 //        fileSystem.getRootDirectory().addSubdirectory(new Directory("S3"));
 
         tree = new JTree(this.actualizar());
-        new FileTreeContextMenu(tree, fileSystem, this);
+        new FileTreeContextMenu(tree, fileSystem, this, sd);
         JScrollPane scrollPane = new JScrollPane(tree);
 
         
