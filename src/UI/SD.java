@@ -65,10 +65,11 @@ public class SD extends javax.swing.JFrame {
             add(toggleButton, gbc); 
             if (blocks[i].ocupado) {
                 toggleButton.setSelected(true);
+                toggleButton.setText("Block " + blocks[i].getId()); 
                 toggleButton.setBackground(java.awt.Color.RED);
-                toggleButton.setForeground(java.awt.Color.WHITE);
             } else {
                 toggleButton.setBackground(java.awt.Color.GREEN);
+                toggleButton.setText("Free " + blocks[i].getId()); 
             }
 //            toggleButton.setEnabled(false);
             toggleButton.addActionListener(new ActionListener() {

@@ -39,12 +39,14 @@ public class ArbolFS extends javax.swing.JFrame {
      */
     public ArbolFS(FileSystem fileSystem) {
         initComponents();
-        this.sd = new SimulatedDisc(50);
+        this.fileSystem = fileSystem;
+        this.sd = new SimulatedDisc(100, fileSystem);
         sd.loadFilesToBlocks(); 
+        sd.printBlocks();
         mode = 1;
        
 //        this.setVisible(false);
-        this.fileSystem = fileSystem;
+        
 //        JFrame frame = new JFrame("File System");
 //        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());

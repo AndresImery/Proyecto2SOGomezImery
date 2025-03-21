@@ -17,9 +17,9 @@ public class SimulatedDisc {
     public FileSystem fileSystem;
     public Block[] blocks;
 
-    public SimulatedDisc(int total_blocks) {
+    public SimulatedDisc(int total_blocks,FileSystem fileSystem) {
         this.total_blocks = this.available_blocks =total_blocks;
-        this.fileSystem = new FileSystem(total_blocks);
+        this.fileSystem = fileSystem;
         blocks = new Block[this.total_blocks];
         for (int i = 0; i < this.total_blocks; i++) {
             blocks[i] = new Block(i);
@@ -94,31 +94,36 @@ public class SimulatedDisc {
     }
     
     public void loadFilesToBlocks() {
+        // Reiniciar todos los bloques
         for (Block block : blocks) {
             block.ocupado = false;
             block.setNextBlock(null);
         }
         available_blocks = total_blocks;
 
-        assignDirectoryBlocks(fileSystem.getRootDirectory());
+        // Recorrer el sistema de archivos y asignar bloques encadenados
+        assignBlocksRecursive(fileSystem.getRootDirectory());
     }
 
-    private void assignDirectoryBlocks(Directory dir) {
+
+    private void assignBlocksRecursive(Directory dir) {
+        // Asignar a los archivos de este directorio
         Node fileNode = dir.getFiles().getHead();
         while (fileNode != null) {
             FileEntry file = (FileEntry) fileNode.getData();
-            assignBlocksToFile(file);
+            assignBlocksToFile(file); // 🔗 encadena bloques
             fileNode = fileNode.getNext();
         }
 
-        // 2. Recurse into subdirectories
-        Node subdirNode = dir.getSubdirectories().getHead();
-        while (subdirNode != null) {
-            Directory sub = (Directory) subdirNode.getData();
-            assignDirectoryBlocks(sub);
-            subdirNode = subdirNode.getNext();
+        // Repetir en subdirectorios
+        Node subNode = dir.getSubdirectories().getHead();
+        while (subNode != null) {
+            Directory subDir = (Directory) subNode.getData();
+            assignBlocksRecursive(subDir);
+            subNode = subNode.getNext();
         }
     }
+
 
     private void assignBlocksToFile(FileEntry file) {
         int size = file.getSizeInBlocks();
@@ -147,9 +152,22 @@ public class SimulatedDisc {
             file.setStartBlock(first.getId());
             available_blocks -= size;
         } else {
-            System.err.println("⛔ Not enough blocks to reassign file: " + file.getName());
+            System.err.println("No hay suficientes bloques para asignar el archivo: " + file.getName());
         }
     }
+
+    
+    public void printBlocks() {
+    System.out.println("=== Estado de los bloques en SimulatedDisc ===");
+    for (int i = 0; i < blocks.length; i++) {
+        Block b = blocks[i];
+        String estado = b.ocupado ? "OCUPADO" : "LIBRE";
+        String next = (b.getNextBlock() != null) ? String.valueOf(b.getNextBlock().getId()) : "null";
+        System.out.println("Bloque " + b.getId() + ": " + estado + " -> Siguiente: " + next);
+    }
+    System.out.println("Bloques disponibles: " + this.available_blocks + "/" + this.total_blocks);
+}
+
 
     
 }
