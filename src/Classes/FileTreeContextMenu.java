@@ -35,7 +35,7 @@ public class FileTreeContextMenu {
         JMenuItem addDirectory = new JMenuItem("➕ Agregar Directorio");
         JMenuItem addFile = new JMenuItem("📄 Agregar Archivo");
         JMenuItem delete = new JMenuItem("❌ Eliminar");
-        JMenuItem update = new JMenuItem("❌ Cambiar nombre");
+        JMenuItem update = new JMenuItem("✏️ Cambiar nombre");
 
         menu.add(addDirectory);
         menu.add(addFile);
@@ -202,6 +202,8 @@ public class FileTreeContextMenu {
         // 3. Eliminar visualmente en el árbol
         parentNode.remove(selectedNode);
         actualizarArbol();
+        arbolfs.updateTable();
+        simulatedDisc.printBlocks();
     }
 
     public void actualizarArbol() {
@@ -233,4 +235,9 @@ public class FileTreeContextMenu {
         }
         return null;
     }
+    public ArbolFS getArbolfs() {
+        return arbolfs;
+    }
+    
+   
 }
